@@ -1,0 +1,35 @@
+name: Manual
+on:
+  workflow_dispatch:                       # 手動実行イベント
+    inputs:
+      greeting:                            # 既存の入力パラメータ
+        type: string                       # データ型（文字列）
+        default: Hello                     # デフォルト値
+        required: true                     # 必須フラグ
+        description: A cheerful word       # 入力パラメータ概要
+      
+      log-level:                           # 新しい入力パラメータ (choice)
+        type: choice                       # データ型（choice）
+        required: true                      # 必須フラグ
+        description: "Select the log level"
+        options:                            # ログレベルの選択肢
+          - info
+          - warn
+          - error
+
+      environment:                         # 新しい入力パラメータ (choice)
+        type: choice                       # データ型（choice）
+        required: true                     # 必須フラグ
+        description: "Choose deployment environment"
+        options:                            # デプロイメント環境の選択肢
+          - production
+          - staging
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Greeting: ${{ inputs.greeting }}"
+          echo "Log level: ${{ inputs['log-level'] }}"
+          echo "Environment: ${{ inputs.environment }}"
